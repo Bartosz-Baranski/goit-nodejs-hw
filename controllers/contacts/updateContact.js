@@ -1,0 +1,16 @@
+import { HttpError } from "../../helpers/httpErrors/httpErrors.js";
+import Contact from "../../models/contact.js";
+
+const contactToUpdate = async (req, res, next) => {
+  const { contactId } = req.params;
+
+  const result = await Contact.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
+  if (!result) {
+    throw HttpError(404, "Not found");
+  }
+  res.json(result);
+};
+
+export { contactToUpdate };
