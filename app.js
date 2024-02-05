@@ -4,7 +4,10 @@ import cors from "cors";
 import { configDotenv } from "dotenv";
 configDotenv();
 
+import authStrategy from "./controllers/users/strategy.js";
+
 import { router as contactRouter } from "./routes/api/contacts.js";
+import { router as userRouter } from "./routes/api/users.js";
 
 const app = express();
 
@@ -15,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", contactRouter);
+app.use("/users", userRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
