@@ -8,7 +8,7 @@ import User from "../../models/users.js";
 const authStrategy = new Strategy(
   {
     secretOrKey: process.env.JWT_SECRET,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken,
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   },
   (payload, done) => {
     User.findOne({ _id: payload.id })
