@@ -1,6 +1,7 @@
 import app from "./app.js";
 import mongoose from "mongoose";
-
+import { configDotenv } from "dotenv";
+configDotenv();
 mongoose.set("strictQuery", true);
 
 mongoose
