@@ -1,10 +1,12 @@
 import User from "../../models/users.js";
-
+import gravatar from "gravatar";
 
 const createUser = async (req, res) => {
+  const avatar = gravatar.url(req.body.email);
   try {
     const user = new User({
       email: req.body.email,
+      avatarURL: avatar,
     });
     user.setPassword(req.body.password);
 
