@@ -1,4 +1,4 @@
-import { HttpError } from "../../helpers/httpErrors/httpErrors.js";
+import HttpError from "../../helpers/httpErrors/httpErrors.js";
 import Contact from "../../models/contact.js";
 
 const addingContacts = async (req, res) => {

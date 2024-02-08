@@ -2,24 +2,20 @@ import path from "path";
 import Jimp from "jimp";
 import fs from "fs";
 
-const avatarsDir = path.join("../", "public", "avatars");
+import { tempDir, storeImg } from "../../middleweare/upload.js";
 
 const updateAvatar = async (req, res) => {
-  const { _id } = req.user;
-  const { path: tempUpload, originalname } = req.file;
-  const filename = `${_id}_${originalname}`;
-  const resultUpload = path.join(avatarsDir, filename);
-  await fs.rename(tempUpload, resultUpload);
-  Jimp.read(tempUpload, (err, image) => {
-    if (err) return next(notFoundHttpError(err));
+  const { path: tempDir, originalname } = req.file;
+  const filename = `${req.user.id}_${originalname}`;
+  const resultUpload = path.join(storeImg, filename);
+  Jimp.read(tempDir, (err, image) => {
+    if (err) return next(err);
     image.resize(250, 250).write(resultUpload);
   });
-  await fs.unlink(tmpUpload);
-  const avatarURL = path.join("avatars", filename);
-  await User.findByIdAndUpdate(_id, { avatarURL });
-
-  res.json({
-    avatarURL,
-  });
+  await fs.rename(tempDir, resultUpload);
+  fs.unlink(tempDir);
+  const avatarURL = filename;
+  await User.findByIdAndUpdate(req.user.id, { avatar: avatarURL });
+  res.status(200).json({ avatar: avatarURL });
 };
 export default updateAvatar;
