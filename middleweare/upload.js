@@ -1,7 +1,6 @@
 import multer from "multer";
 import path from "path";
 
-
 export const tempDir = path.join(process.cwd(), "temp");
 export const storeImg = path.join(process.cwd(), "public/avatars");
 
@@ -10,7 +9,7 @@ const storageMulter = multer.diskStorage({
     cb(null, tempDir);
   },
   filename: (req, file, cb) => {
-    cb(null, "${user.id}${file.originalname}");
+    cb(null, `${req.user.id}${file.originalname}`);
   },
 });
 

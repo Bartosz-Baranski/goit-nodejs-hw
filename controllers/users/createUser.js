@@ -15,7 +15,7 @@ const createUser = async (req, res, next) => {
 
     const passwordHash = await bcrypt.hash(password, 10);
     const avatar = gravatar.url(email);
-    await User.create({ email, password: passwordHash, avatar });
+    await User.create({ email, password: passwordHash, avatarURL: avatar });
 
     res.status(201).send({ message: "Registration successfully" });
   } catch (error) {

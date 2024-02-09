@@ -15,4 +15,4 @@ router.post("/signup", createUser);
 router.post("/login", login);
 router.post("/logout", authMidd, logout);
 router.get("/current", authMidd, getCurrent);
-router.patch("/avatars", upload.single("picture"), updateAvatar);
+router.patch("/avatars", authMidd, upload.single("avatar"), updateAvatar);
