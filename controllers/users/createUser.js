@@ -1,18 +1,25 @@
+import gravatar from "gravatar";
+import bcrypt from "bcryptjs";
 import User from "../../models/users.js";
+import HttpError from "../../helpers/httpErrors/httpErrors.js";
 
+const createUser = async (req, res, next) => {
+  const { email, password } = req.body;
 
-const createUser = async (req, res) => {
   try {
-    const user = new User({
-      email: req.body.email,
-    });
-    user.setPassword(req.body.password);
+    const user = await User.findOne({ email });
 
-    await user.save();
-    return res.status(201).json({ data: user });
-  } catch (err) {
-    console.log(err);
-    return res.status(409).json({ message: "Email in use" });
+    if (user !== null) {
+      throw HttpError(409, "Email in use");
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const avatar = gravatar.url(email);
+    await User.create({ email, password: passwordHash, avatarURL: avatar });
+
+    res.status(201).send({ message: "Registration successfully" });
+  } catch (error) {
+    next(error);
   }
 };
 
