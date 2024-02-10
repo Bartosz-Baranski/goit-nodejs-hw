@@ -19,11 +19,10 @@ const createUser = async (req, res, next) => {
     const avatar = gravatar.url(email);
     const verifyToken = nanoid();
 
-    // function sendEmail(message) {
     const emailOptions = {
       to: email,
       from: "bartosz.baranski1990@gmail.com",
-      subject: "Welcome",
+      subject: "Verify Email",
       html: `To confirm your registration please click on the <a href="http://localhost:3000/api/users/verify/${verifyToken}">link</a>`,
       text: `To confirm your registration please open the link http://localhost:3000/api/users/verify/${verifyToken}`,
     };
@@ -35,8 +34,7 @@ const createUser = async (req, res, next) => {
       .catch((error) => {
         console.error(error);
       });
-    // }
-    // sendEmail(emailOptions);
+   
 
     await User.create({
       email,
