@@ -34,7 +34,6 @@ const createUser = async (req, res, next) => {
       .catch((error) => {
         console.error(error);
       });
-   
 
     await User.create({
       email,
@@ -43,7 +42,12 @@ const createUser = async (req, res, next) => {
       verificationToken: verifyToken,
     });
 
-    res.status(201).send({ message: "Registration successfully" });
+    res
+      .status(201)
+      .send({
+        message:
+          "Registration successfully, verification email send to your email",
+      });
   } catch (error) {
     next(error);
   }
